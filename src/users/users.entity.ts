@@ -1,4 +1,10 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Users extends BaseEntity {
@@ -11,9 +17,9 @@ export class Users extends BaseEntity {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   token: string;
 
-  @Column()
+  @UpdateDateColumn({ type: 'timestamptz', nullable: true })
   expireDate: Date;
 }

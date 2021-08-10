@@ -1,10 +1,11 @@
-import { Body, Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { User } from './user.model';
+import { find } from 'rxjs';
 
 @Controller('login')
 export class UsersController {
-  async find(@Body() user: User): Promise<any> {
-    // const loginUser = new Users();
+  @Post()
+  find(@Body() user: User): string {
     return user.login;
   }
 }
