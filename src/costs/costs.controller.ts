@@ -9,7 +9,7 @@ export class CostsController {
   async create(@Body() cost: Cost): Promise<any> {
     const newCost = new Costs();
 
-    newCost.date = new Date();
+    newCost.date = cost.date ? cost.date : new Date();
     newCost.amount = cost.amount;
     newCost.comment = cost?.comment;
     newCost.category = cost.category;
