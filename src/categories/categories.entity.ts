@@ -7,4 +7,8 @@ export class Categories extends BaseEntity {
 
   @Column()
   name: string;
+
+  @Column({ default: '#ccc' })
+  color: string;
+
 }
