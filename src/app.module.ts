@@ -4,6 +4,7 @@ import { Costs } from './costs/costs.entity';
 import { CategoriesModule } from './categories/categories.module';
 import { Categories } from './categories/categories.entity';
 import { CostsModule } from './costs/costs.module';
+import { Users } from './users/users.entity';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { CostsModule } from './costs/costs.module';
       username: 'postgres',
       password: '111111',
       database: 'pfm',
-      entities: [Categories, Costs],
+      entities: [Categories, Costs, Users],
       synchronize: true,
     }),
     CategoriesModule,
