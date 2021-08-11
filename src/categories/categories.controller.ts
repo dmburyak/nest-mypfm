@@ -26,7 +26,7 @@ export class CategoriesController {
 
   @Get()
   async findAll(@Req() request: Request): Promise<any> {
-    console.log(request.cookies['accessToken']);
+    // console.log(request.cookies['accessToken']);
     return await Categories.find();
   }
 

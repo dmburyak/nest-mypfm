@@ -1,14 +1,29 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { CallHandler, ExecutionContext, HttpException, HttpStatus, Injectable, NestInterceptor } from '@nestjs/common';
+import { Users } from './users/users.entity';
+import { MoreThan } from 'typeorm';
 
 @Injectable()
 export class AuthInterceptor implements NestInterceptor {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    // console.log('Before...');
-    // const now = Date.now();
-    // return next
-    //   .handle()
-    //   .pipe(tap(() => console.log(`After... ${Date.now() - now}ms`)));
+  async intercept(context: ExecutionContext, next: CallHandler): Promise<any> {
+    const token = context.switchToHttp().getRequest().cookies['accessToken'];
+    if (token === undefined) {
+      this.sendUnauthorized();
+    }
+    const currentDate = new Date();
+    const validTuDate = new Date(
+      currentDate.setHours(currentDate.getHours() - 1),
+    );
+    const tokenToVerify = await Users.findOne({
+      token: Number(token),
+      expireDate: MoreThan(validTuDate),
+    });
+    if (tokenToVerify === undefined) {
+      this.sendUnauthorized();
+    }
     return next.handle();
+  }
+
+  sendUnauthorized() {
+    throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
   }
 }
