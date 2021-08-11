@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseInterceptors } from '@nestjs/common';
 import { Category } from './category.model';
 import { Categories } from './categories.entity';
+import { AuthInterceptor } from '../auth.interceptor';
 
 @Controller('categories')
+@UseInterceptors(AuthInterceptor)
 export class CategoriesController {
   @Post()
   async create(@Body() category: Category): Promise<Categories> {

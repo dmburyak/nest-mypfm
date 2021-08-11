@@ -18,7 +18,7 @@ export class Users extends BaseEntity {
   password: string;
 
   @Column({ nullable: true })
-  token: string;
+  token: number;
 
   @UpdateDateColumn({ type: 'timestamptz', nullable: true })
   expireDate: Date;
