@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Post, Put, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+  UseInterceptors,
+} from '@nestjs/common';
+import { Request } from 'express';
 import { Category } from './category.model';
 import { Categories } from './categories.entity';
 import { AuthInterceptor } from '../auth.interceptor';
@@ -15,7 +25,8 @@ export class CategoriesController {
   }
 
   @Get()
-  async findAll(): Promise<Categories[]> {
+  async findAll(@Req() request: Request): Promise<any> {
+    console.log(request.cookies['accessToken']);
     return await Categories.find();
   }
 

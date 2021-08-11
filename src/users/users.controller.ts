@@ -33,6 +33,8 @@ export class UsersController {
     await userToAuthorize.save();
     res.cookie('accessToken', userToAuthorize.token, {
       expires: new Date(new Date().getTime() + 30 * 60 * 1000),
+      sameSite: 'strict',
+      httpOnly: true,
     });
     // return userToAuthorize.token;
     return res.send();
