@@ -8,12 +8,27 @@ export class Costs extends BaseEntity {
   @Column()
   date: Date;
 
-  @Column()
-  amount: number;
+  @Column({ nullable: true })
+  flat: number;
 
-  @Column()
+  @Column({ nullable: true })
+  kindergarten: number;
+
+  @Column({ nullable: true })
+  food: number;
+
+  @Column({ nullable: true })
+  dress: number;
+
+  @Column({ nullable: true })
+  medicine: number;
+
+  @Column({ nullable: true })
+  toys: number;
+
+  @Column({ nullable: true })
+  other: number;
+
+  @Column({ nullable: true })
   comment: string;
-
-  @Column()
-  category: string;
 }

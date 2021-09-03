@@ -8,6 +8,9 @@ export class Categories extends BaseEntity {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  nameRu: string;
+
   @Column({ default: '#ccc' })
   color: string;
 
