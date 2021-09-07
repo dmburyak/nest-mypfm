@@ -1,6 +1,6 @@
 import {
   Body,
-  Controller,
+  Controller, Delete,
   Get,
   Param,
   Post,
@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { Cost } from './cost.model';
 import { Costs } from './costs.entity';
-import { Between } from 'typeorm';
+import { Between, getConnection, getManager, LessThan, MoreThan, SelectQueryBuilder } from 'typeorm';
 import { AuthInterceptor } from '../auth.interceptor';
 
 @Controller('costs')
@@ -51,16 +51,21 @@ export class CostsController {
   }
 
   @Get(':year/:month')
-  async findAll(
-    @Param('year') year: string,
-    @Param('month') month: string,
-  ): Promise<Costs[]> {
-    const fromDate = new Date(`${year}-${month}`);
-    let toDate = new Date(fromDate.getTime());
-    toDate = new Date(toDate.setMonth(fromDate.getMonth() + 1));
-    return await Costs.find({
-      where: [{ date: Between(fromDate, toDate) }],
-      order: { date: 'ASC' },
-    });
+  async findAll(@Param('year') year: string, @Param('month') month: string) {
+
+    const fromDate = new Date(Number(year), Number(month) - 1);
+    const toDate = new Date(Number(year), Number(month));
+
+    return await getManager()
+      .createQueryBuilder(Costs, 'cost')
+      .where('cost.date > :from', { from: fromDate })
+      .andWhere('cost.date < :to', { to: toDate })
+      .orderBy('cost.date')
+      .getMany();
+  }
+
+  @Delete(':id/delete')
+  async delete(@Param('id') id: string) {
+    return await Costs.delete(Number(id));
   }
 }
