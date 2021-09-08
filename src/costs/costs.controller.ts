@@ -58,7 +58,7 @@ export class CostsController {
 
     return await getManager()
       .createQueryBuilder(Costs, 'cost')
-      .where('cost.date > :from', { from: fromDate })
+      .where('cost.date >= :from', { from: fromDate })
       .andWhere('cost.date < :to', { to: toDate })
       .orderBy('cost.date')
       .getMany();

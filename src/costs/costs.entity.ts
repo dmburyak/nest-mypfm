@@ -5,7 +5,7 @@ export class Costs extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'timestamp with time zone', nullable: true })
   date: Date;
 
   @Column({ nullable: true })
